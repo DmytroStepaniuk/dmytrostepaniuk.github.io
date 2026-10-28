@@ -1,19 +1,310 @@
-body {
-  background-image: url('bg.jpg');
+@font-face { font-family: "e-Ukraine"; font-weight: 100; font-display: swap; src: url("assets/fonts/e-Ukraine-UltraLight.otf") format("opentype"); }
+@font-face { font-family: "e-Ukraine"; font-weight: 200; font-display: swap; src: url("assets/fonts/e-Ukraine-Thin.otf") format("opentype"); }
+@font-face { font-family: "e-Ukraine"; font-weight: 300; font-display: swap; src: url("assets/fonts/e-Ukraine-Light.otf") format("opentype"); }
+@font-face { font-family: "e-Ukraine"; font-weight: 400; font-display: swap; src: url("assets/fonts/e-Ukraine-Regular.otf") format("opentype"); }
+@font-face { font-family: "e-Ukraine"; font-weight: 500; font-display: swap; src: url("assets/fonts/e-Ukraine-Medium.otf") format("opentype"); }
+@font-face { font-family: "e-Ukraine"; font-weight: 700; font-display: swap; src: url("assets/fonts/e-Ukraine-Bold.otf") format("opentype"); }
+
+:root {
+  --ink: #1c1712;
+  --wall: #e6d9b8;
+  --gap: 10vh;
+  --font: "e-Ukraine", system-ui, sans-serif;
 }
 
-.white-text-glow {
-  color: rgba(255, 255, 255, 0.584);
-  text-shadow: 1px 6px 3px rgba(0, 0, 0, 0.39);
+* { box-sizing: border-box; }
 
+html, body {
+  margin: 0;
+  background: #0b0907;
 }
-  .close-currencies-button {
-  background-color: #aa0430;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  text-align: center;
+
+body { font-family: var(--font); color: var(--ink); }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Scroll track: its height is the "film length" */
+.track { height: 1600vh; position: relative; }
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  animation: weave 3.1s steps(1, end) infinite;
+}
+
+.reel {
+  display: flex;
   flex-direction: column;
+  will-change: transform;
+}
+
+.frame {
+  position: relative;
+  height: 100vh;
+  flex: none;
+  background: radial-gradient(ellipse at 50% 42%, #f3e9cd 0%, var(--wall) 55%, #b8a77f 100%);
+}
+
+.gap { height: var(--gap); flex: none; background: #0b0907; }
+
+.frame svg { width: 100%; height: 100%; display: block; }
+
+/* hand-drawn ink */
+.ink {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* With JS, start hidden so the finished scene never flashes before main.js runs
+   (main.js sets inline opacity, which overrides these). Without JS it stays drawn. */
+.js .ink [data-from]:not([data-fade]) > *,
+.js .ink [data-fade] { opacity: 0; }
+
+.ink .label text {
+  fill: var(--ink);
+  stroke: none;
+  font-family: var(--font);
+  font-size: 46px;
+  font-weight: 500;
+  letter-spacing: 3px;
+}
+
+/* subtitles: stay in the DOM as real text; stacked and driven by scroll with JS */
+.subs {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 9vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .5em;
+  padding: 0 5vw;
+}
+.subs p {
+  margin: 0;
+  max-width: 34em;
+  padding: .35em .8em;
+  text-align: center;
+  font-weight: 400;
+  font-size: clamp(16px, 2.6vw, 30px);
+  line-height: 1.3;
+  color: #f4ecd8;
+  background: rgba(11, 9, 7, .78);
+  border-radius: 4px;
+}
+.js .subs { display: grid; justify-items: center; }
+.js .subs p { grid-area: 1 / 1; opacity: 0; }
+
+.ink .label .leaf-text {
+  font-size: 62px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.ink .label .arch-text {
+  font-size: 28px;
+  letter-spacing: 1px;
+}
+
+/* opening title card, like an old film; only with JS, under the projector layers */
+.intro { display: none; }
+.js .intro {
+  display: grid;
+  place-items: center;
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(ellipse at 50% 42%, #f3e9cd 0%, var(--wall) 55%, #b8a77f 100%);
+  pointer-events: none; /* opacity is driven by scroll in main.js */
+}
+
+.intro__card {
+  width: min(86vw, 1000px);
+  padding: clamp(28px, 6vw, 72px) max(4vw, 40px);
+  container-type: inline-size;
+  overflow-wrap: anywhere;
+  text-align: center;
+  border: 7px double var(--ink);
+  outline: 1px solid var(--ink);
+  outline-offset: -22px;
+  opacity: 0;
+}
+.intro.is-playing .intro__card { animation: titleIn 3.8s ease-out both; }
+
+.intro__title {
+  margin: .25em 0;
+  /* sized from the card's own width (cqw) so it always fits inside the frame */
+  font-size: clamp(30px, 7vw, 90px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+@supports (width: 1cqw) {
+  .intro__title { font-size: clamp(30px, 9cqw, 110px); }
+}
+
+.intro__rule {
+  position: relative;
+  height: 1px;
+  margin: 1.2em auto;
+  width: 60%;
+  background: var(--ink);
+}
+.intro__rule::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  background: var(--wall);
+  border: 1px solid var(--ink);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+@keyframes titleIn {
+  0%   { opacity: 0; transform: scale(.94); }
+  15%  { opacity: 1; }
+  100% { opacity: 1; transform: scale(1.03); }
+}
+
+/* language switch (needs JS, so hidden without it) */
+.lang { display: none; }
+.js .lang {
+  display: flex;
+  position: fixed;
+  top: 2vh;
+  right: 2vw;
+  z-index: 10;
+  gap: 2px;
+  padding: 3px;
+  background: rgba(11, 9, 7, .78);
+  border-radius: 6px;
+}
+.lang button {
+  font: 500 14px/1 var(--font);
+  letter-spacing: 1px;
+  padding: 7px 10px;
+  color: #f4ecd8;
+  opacity: .55;
+  background: none;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.lang button[aria-pressed="true"] { opacity: 1; background: rgba(244, 236, 216, .18); }
+.lang button:focus-visible { outline: 2px solid #f4ecd8; outline-offset: 1px; }
+
+.hint {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4vh;
+  margin: 0;
+  text-align: center;
+  font-size: clamp(18px, 2.4vw, 28px);
+  opacity: .75;
+  animation: bob 1.8s ease-in-out infinite;
+}
+
+
+/* ---- projector layers ---- */
+.layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+.vignette {
+  z-index: 2;
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 45%, rgba(18,10,2,.55) 100%),
+    radial-gradient(ellipse at 50% 45%, rgba(255,235,180,.10), rgba(255,235,180,0) 60%);
+}
+
+.grain {
+  z-index: 3;
+  background-image: var(--grain);
+  background-size: 256px 256px;
+  opacity: .5;
+  mix-blend-mode: multiply;
+  animation: grain .6s steps(1, end) infinite;
+}
+
+.flicker {
+  z-index: 4;
+  background: #000;
+  opacity: 0;
+  animation: flicker 2.6s steps(1, end) infinite;
+}
+
+.scratch {
+  position: fixed;
+  z-index: 5;
+  width: 1px;
+  background: rgba(20, 12, 4, .45);
+  pointer-events: none;
+}
+.dust {
+  position: fixed;
+  z-index: 5;
+  border-radius: 50%;
+  background: rgba(20, 12, 4, .6);
+  pointer-events: none;
+}
+
+@keyframes flicker {
+  0%   { opacity: .03; }
+  8%   { opacity: .10; }
+  14%  { opacity: .02; }
+  22%  { opacity: .07; }
+  31%  { opacity: 0; }
+  37%  { opacity: .12; }
+  41%  { opacity: .04; }
+  55%  { opacity: .08; }
+  63%  { opacity: .01; }
+  72%  { opacity: .06; }
+  80%  { opacity: .13; }
+  86%  { opacity: .03; }
+  94%  { opacity: .07; }
+}
+
+@keyframes grain {
+  0%   { background-position: 0 0; }
+  20%  { background-position: -60px 40px; }
+  40%  { background-position: 90px -30px; }
+  60%  { background-position: -120px -80px; }
+  80%  { background-position: 40px 110px; }
+}
+
+@keyframes weave {
+  0%   { transform: translate(0, 0); }
+  17%  { transform: translate(1px, -1px); }
+  34%  { transform: translate(-1px, 0); }
+  51%  { transform: translate(0, 1px); }
+  68%  { transform: translate(1px, 0); }
+  85%  { transform: translate(-1px, -1px); }
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage, .grain, .flicker, .hint { animation: none; }
+  .intro.is-playing .intro__card { animation: none; opacity: 1; }
 }

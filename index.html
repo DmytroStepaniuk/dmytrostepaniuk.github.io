@@ -1,28 +1,268 @@
 <!DOCTYPE html>
-<html>
+<html lang="uk">
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dmytro Stepaniuk — CV</title>
+    <script>document.documentElement.classList.add("js");</script>
     <link rel="stylesheet" href="main.css">
-    <title>Dmytro</title>
   </head>
 
   <body>
-    <div style="display: flex;justify-content: center;">
-      <div style="display: inline-block;">
-        <h1 class="white-text-glow">Hi &#128075; My name is Dmytro</h1>
-        <h1 class="white-text-glow">Welcome to my CV Page</h1>
-      </div>
+    <h1 class="sr-only">Dmytro Stepaniuk — CV</h1>
 
-      <div style="width: auto;width: 150px;"></div>
+    <main class="track">
+      <div class="stage">
+        <div class="reel">
 
-      <div id="national_bank__wrapper" style="display: inline-block;">
-        <div id="national_bank" style="padding: 0 5px 0 5px;border: tomato;border-style: dashed;background-color: darkgreen;"></div>
-        <div style="text-align: center;"></div>
-          <button class="close-currencies-button" onclick="document.getElementById('national_bank__wrapper').remove();alert('Ну як скажеш.');">Закрити цей стид</button>
+          <!-- Frame 1: graduation -->
+          <section class="frame" data-draw-from="0" data-draw-to=".24" data-advance-from=".27" data-advance-to=".31">
+            <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="img"
+                 aria-label="Випускник у академічному капелюсі отримує диплом від чоловіка в костюмі біля університету"
+                 data-en-label="A graduate in an academic cap receives a diploma from a man in a suit in front of the university">
+              <defs>
+                <filter id="wobble" x="-5%" y="-5%" width="110%" height="110%">
+                  <feTurbulence type="fractalNoise" baseFrequency=".015" numOctaves="2" seed="3" result="n"/>
+                  <feDisplacementMap in="SourceGraphic" in2="n" scale="6"/>
+                </filter>
+                <path id="archPath" d="M1006 690 A244 414 0 0 1 1494 690" fill="none"/>
+              </defs>
+
+              <g class="ink" filter="url(#wobble)">
+                <!-- ground + bush -->
+                <g data-from="0" data-to=".08">
+                  <path d="M40 792 C400 786 800 796 1560 788"/>
+                  <path d="M60 790 c0-40 50-50 70-20 c10-25 60-20 60 20"/>
+                </g>
+
+                <!-- campus behind the arch: tall block, low wing, road -->
+                <g data-from=".06" data-to=".16">
+                  <path d="M1150 640 V400 H1330 V640"/>
+                  <path d="M1085 690 V640 H1415 V690"/>
+                  <path d="M1030 790 L1210 700"/>
+                  <path d="M1470 790 L1290 700"/>
+                </g>
+
+                <!-- windows -->
+                <g data-from=".14" data-to=".24">
+                  <path d="M1165 420 h22 v20 h-22 z M1197 420 h22 v20 h-22 z M1229 420 h22 v20 h-22 z M1261 420 h22 v20 h-22 z M1293 420 h22 v20 h-22 z"/>
+                  <path d="M1165 458 h22 v20 h-22 z M1197 458 h22 v20 h-22 z M1229 458 h22 v20 h-22 z M1261 458 h22 v20 h-22 z M1293 458 h22 v20 h-22 z"/>
+                  <path d="M1165 496 h22 v20 h-22 z M1197 496 h22 v20 h-22 z M1229 496 h22 v20 h-22 z M1261 496 h22 v20 h-22 z M1293 496 h22 v20 h-22 z"/>
+                  <path d="M1165 534 h22 v20 h-22 z M1197 534 h22 v20 h-22 z M1229 534 h22 v20 h-22 z M1261 534 h22 v20 h-22 z M1293 534 h22 v20 h-22 z"/>
+                  <path d="M1165 572 h22 v20 h-22 z M1197 572 h22 v20 h-22 z M1229 572 h22 v20 h-22 z M1261 572 h22 v20 h-22 z M1293 572 h22 v20 h-22 z"/>
+                  <path d="M1100 655 h26 v18 h-26 z M1140 655 h26 v18 h-26 z M1180 655 h26 v18 h-26 z M1220 655 h26 v18 h-26 z M1260 655 h26 v18 h-26 z M1300 655 h26 v18 h-26 z M1340 655 h26 v18 h-26 z M1380 655 h26 v18 h-26 z"/>
+                </g>
+
+                <!-- arch band -->
+                <g data-from=".22" data-to=".38">
+                  <path d="M960 690 A290 460 0 0 1 1540 690"/>
+                  <path d="M1030 690 A220 390 0 0 1 1470 690"/>
+                </g>
+
+                <!-- arch lettering -->
+                <g data-from=".36" data-to=".44" data-fade class="label">
+                  <text class="arch-text"><textPath href="#archPath" startOffset="50%" text-anchor="middle">ВІННИЦЬКИЙ НАЦІОНАЛЬНИЙ ТЕХНІЧНИЙ УНІВЕРСИТЕТ</textPath></text>
+                </g>
+
+                <!-- arch posts -->
+                <g data-from=".38" data-to=".46">
+                  <path d="M945 680 H1048 V790 H945 Z"/>
+                  <path d="M955 700 L1038 740"/>
+                  <path d="M955 735 L1038 775"/>
+                  <path d="M960 760 L1000 782"/>
+                  <path d="M1452 680 H1555 V790 H1452 Z"/>
+                  <path d="M1462 700 L1545 740"/>
+                  <path d="M1462 735 L1545 775"/>
+                  <path d="M1500 760 L1545 786"/>
+                </g>
+
+                <!-- Dmytro: body -->
+                <g data-from=".46" data-to=".60">
+                  <path d="M447 398 L405 740 H565 L516 398"/>
+                  <path d="M447 398 Q481 420 516 398"/>
+                  <path d="M485 415 L492 740"/>
+                  <path d="M450 740 L440 790"/>
+                  <path d="M515 740 L530 790"/>
+                  <path d="M450 418 L385 365"/>
+                  <path d="M514 418 L627 495"/>
+                </g>
+
+                <!-- Dmytro: head, cap, face -->
+                <g data-from=".56" data-to=".68">
+                  <circle cx="480" cy="330" r="62"/>
+                  <path d="M392 252 L470 214 L578 244 L500 268 Z"/>
+                  <path d="M578 244 L574 300"/>
+                  <path d="M574 300 l-3 24"/>
+                  <path d="M574 300 l5 22"/>
+                  <path d="M455 325 q10 -14 22 0"/>
+                  <path d="M495 325 q10 -14 22 0"/>
+                  <path d="M462 352 Q490 390 520 352 Z"/>
+                  <circle cx="372" cy="352" r="14"/>
+                </g>
+
+                <!-- man in a suit hands over the diploma -->
+                <g data-from=".64" data-to=".80">
+                  <path d="M760 412 L752 600 H848 L840 412"/>
+                  <path d="M785 412 L800 500 L815 412"/>
+                  <path d="M800 432 l-9 16 l9 62 l9 -62 Z"/>
+                  <circle cx="800" cy="545" r="3"/>
+                  <circle cx="800" cy="575" r="3"/>
+                  <path d="M752 600 L748 790 H795 L800 650 L805 790 H852 L848 600"/>
+                  <circle cx="800" cy="345" r="50"/>
+                  <path d="M755 322 C758 290 842 290 845 322"/>
+                  <circle cx="782" cy="338" r="3"/>
+                  <circle cx="818" cy="338" r="3"/>
+                  <path d="M800 345 V359"/>
+                  <path d="M785 369 Q800 382 815 369"/>
+                  <path d="M766 425 L727 502"/>
+                  <path d="M838 425 L866 585"/>
+                  <circle cx="869" cy="597" r="10"/>
+                </g>
+
+                <!-- diploma + hands -->
+                <g data-from=".78" data-to=".88">
+                  <path d="M652 483 H712"/>
+                  <path d="M652 517 H712"/>
+                  <ellipse cx="652" cy="500" rx="9" ry="17"/>
+                  <path d="M712 483 A9 17 0 0 1 712 517"/>
+                  <path d="M684 483 V517"/>
+                  <path d="M692 483 V517"/>
+                  <circle cx="638" cy="502" r="11"/>
+                  <circle cx="722" cy="504" r="11"/>
+                </g>
+
+                <!-- sparks of joy -->
+                <g data-from=".88" data-to="1">
+                  <path d="M330 215 L305 175"/>
+                  <path d="M290 262 L248 245"/>
+                  <path d="M375 175 L368 130"/>
+                </g>
+              </g>
+            </svg>
+            <div class="subs">
+              <p data-show-from=".86" data-show-to="1.1"
+                 data-en="In 2015 I received a diploma in “Systems Software”.">У 2015 році отримав диплом зі спеціальності «Програмне забезпечення систем».</p>
+            </div>
+          </section>
+
+          <div class="gap" aria-hidden="true"></div>
+
+          <!-- Frame 2: placeholder -->
+          <!-- Frame 2: first commercial experience (C++ and Qt) -->
+          <section class="frame" data-draw-from=".31" data-draw-to=".55" data-advance-from=".58" data-advance-to=".62">
+            <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="img"
+                 aria-label="Дві долоньки тримають паросток, на листочках якого написано C++ і Qt"
+                 data-en-label="Two cupped hands hold a sprout whose leaves read C++ and Qt">
+              <g class="ink" filter="url(#wobble)">
+                <!-- cupped hands: palms, forearms, fingers wrapping the sprout -->
+                <g data-from="0" data-to=".34">
+                  <path d="M560 610 C535 700 585 800 690 830 C740 845 780 845 800 840"/>
+                  <path d="M1040 610 C1065 700 1015 800 910 830 C860 845 820 845 800 840"/>
+                  <path d="M570 770 C555 820 545 860 540 900"/>
+                  <path d="M690 830 C680 860 675 880 672 900"/>
+                  <path d="M1030 770 C1045 820 1055 860 1060 900"/>
+                  <path d="M910 830 C920 860 925 880 928 900"/>
+                  <path d="M562 640 H705 a17 17 0 0 1 0 34 H564"/>
+                  <path d="M560 686 H725 a17 17 0 0 1 0 34 H562"/>
+                  <path d="M566 732 H715 a17 17 0 0 1 0 34 H584"/>
+                  <path d="M600 776 H680 a15 15 0 0 1 0 30 H625"/>
+                  <path d="M1038 640 H895 a17 17 0 0 0 0 34 H1036"/>
+                  <path d="M1040 686 H875 a17 17 0 0 0 0 34 H1038"/>
+                  <path d="M1034 732 H885 a17 17 0 0 0 0 34 H1016"/>
+                  <path d="M1000 776 H920 a15 15 0 0 0 0 30 H975"/>
+                </g>
+
+                <!-- soil -->
+                <g data-from=".30" data-to=".40">
+                  <path d="M735 690 C765 655 835 655 865 690"/>
+                </g>
+
+                <!-- stem -->
+                <g data-from=".38" data-to=".52">
+                  <path d="M800 650 C785 560 820 470 800 340"/>
+                </g>
+
+                <!-- leaves -->
+                <g data-from=".50" data-to=".68">
+                  <path d="M797 470 C720 490 600 470 520 380 C620 350 750 380 797 470 Z"/>
+                  <path d="M803 420 C880 440 1000 420 1080 330 C980 300 850 330 803 420 Z"/>
+                </g>
+
+                <!-- leaf lettering -->
+                <g data-from=".66" data-to=".74" data-fade class="label">
+                  <text class="leaf-text" x="660" y="425" text-anchor="middle" transform="rotate(18 660 425)">C++</text>
+                  <text class="leaf-text" x="942" y="378" text-anchor="middle" transform="rotate(-18 942 378)">Qt</text>
+                </g>
+
+                <!-- bud + sparks of growth -->
+                <g data-from=".72" data-to=".86">
+                  <path d="M800 340 C770 320 770 285 800 265 C830 285 830 320 800 340 Z"/>
+                  <path d="M730 290 l-24 -22"/>
+                  <path d="M870 290 l24 -22"/>
+                  <path d="M800 240 v-32"/>
+                </g>
+              </g>
+            </svg>
+            <div class="subs">
+              <p data-show-from=".80" data-show-to="1.1"
+                 data-en="Fun fact: my first commercial experience was C++ and Qt, back while I was still studying.">Цікавий факт: мій перший комерційний досвід — C++ та Qt, ще під час навчання.</p>
+            </div>
+          </section>
+
+          <div class="gap" aria-hidden="true"></div>
+
+          <!-- Frame 3: scaffold. Copy the pattern of frame 2: add <g data-from data-to> groups
+               inside the .ink group, one subtitle in .subs, and keep the timing on the section. -->
+          <section class="frame" data-draw-from=".62" data-draw-to=".86">
+            <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="img"
+                 aria-label="Заготовка третього кадру"
+                 data-en-label="Placeholder for the third frame">
+              <g class="ink" filter="url(#wobble)">
+                <!-- ground -->
+                <g data-from="0" data-to=".15">
+                  <path d="M40 792 C400 786 800 796 1560 788"/>
+                </g>
+
+                <!-- sketch of the future scene: replace with the real drawing -->
+                <g data-from=".12" data-to=".60">
+                  <path d="M420 240 H1180 V700 H420 Z"/>
+                  <path d="M420 240 L1180 700"/>
+                  <path d="M1180 240 L420 700"/>
+                </g>
+
+                <g data-from=".55" data-to=".70" data-fade class="label">
+                  <text class="leaf-text" x="800" y="790" text-anchor="middle" data-en="Frame 3">Кадр 3</text>
+                </g>
+              </g>
+            </svg>
+            <div class="subs">
+              <p data-show-from=".72" data-show-to="1.1"
+                 data-en="The next chapter goes here.">Тут буде наступний розділ.</p>
+            </div>
+          </section>
+
         </div>
       </div>
+    </main>
+
+    <div class="intro" aria-hidden="true">
+      <div class="intro__card">
+        <p class="intro__rule"></p>
+        <p class="intro__title" data-en="Animated CV">Анімоване CV</p>
+        <p class="intro__rule"></p>
+      </div>
+      <p class="hint" data-en="↓ scroll">↓ прокрути</p>
     </div>
 
-  </body>
+    <div class="lang" role="group" aria-label="Мова / Language">
+      <button type="button" data-lang="uk" aria-pressed="true">UA</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
 
-  <script type="module" src="main.js"></script>
+    <div class="layer vignette" aria-hidden="true"></div>
+    <div class="layer grain" aria-hidden="true"></div>
+    <div class="layer flicker" aria-hidden="true"></div>
+
+    <script src="main.js"></script>
+  </body>
 </html>
