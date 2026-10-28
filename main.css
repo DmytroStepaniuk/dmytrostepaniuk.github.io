@@ -31,7 +31,7 @@ body { font-family: var(--font); color: var(--ink); }
 }
 
 /* Scroll track: its height is the "film length" */
-.track { height: 5400vh; position: relative; }
+.track { height: 6342vh; position: relative; }
 
 .stage {
   position: sticky;
