@@ -113,7 +113,7 @@
           const prev = items[items.length - 1];
           const x1 = prev.x - 8;
           const x2 = prev.x + prev.w + 8;
-          const y = prev.y + prev.size * 0.4;
+          const y = prev.y + prev.size * 0.62;
           el.setAttribute("d", `M${x1} ${y} Q${(x1 + x2) / 2} ${y - 8} ${x2} ${y + 3}`);
           items.push({ el, x: x1, y, rot: 0, size: 60, w: x2 - x1, tipY: y, boxY: y - 30, boxH: 60 });
           return;
