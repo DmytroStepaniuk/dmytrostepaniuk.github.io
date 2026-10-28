@@ -31,7 +31,7 @@ body { font-family: var(--font); color: var(--ink); }
 }
 
 /* Scroll track: its height is the "film length" */
-.track { height: 3200vh; position: relative; }
+.track { height: 4900vh; position: relative; }
 
 .stage {
   position: sticky;
@@ -58,6 +58,64 @@ body { font-family: var(--font); color: var(--ink); }
 .frame--grey {
   background: radial-gradient(ellipse at 50% 42%, #e7e4da 0%, #cdcabe 55%, #96948a 100%);
 }
+
+/* a school chalkboard in a wooden frame; the drawing fills the whole frame */
+.frame--board {
+  background:
+    radial-gradient(ellipse at 22% 30%, rgba(255, 255, 255, .06), transparent 45%),
+    radial-gradient(ellipse at 50% 40%, #36463e 0%, #2a3730 60%, #1d2824 100%);
+  box-shadow: inset 0 0 0 14px #6b4a2f, inset 0 0 0 19px #4a3320, inset 0 0 100px rgba(0, 0, 0, .5);
+}
+.frame--board svg { height: 100%; }
+
+.board-ink, .chalk-hand path {
+  fill: none;
+  stroke: #e8e4d4;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.chalk-text {
+  font-family: var(--font);
+  font-size: 84px;
+  font-weight: 500;
+  fill: #f1eee2;
+  stroke: none;
+}
+.ink .paper-name {
+  font-family: var(--font);
+  font-weight: 700;
+  fill: var(--ink);
+  stroke: none;
+}
+.ink .paper-sub {
+  font-family: var(--font);
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  fill: var(--ink);
+  stroke: none;
+}
+
+.ink .note-text {
+  font-family: var(--font);
+  font-size: 32px;
+  font-weight: 500;
+  fill: var(--ink);
+  stroke: none;
+}
+
+.chalk-line {
+  fill: none;
+  stroke: #f1eee2;
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+.chalk-hand { display: none; }
+.js .chalk-hand { display: inline; }
+.chalk-hand .hand-fill { fill: #2a3730; }
+.chalk-hand .chalk-piece { fill: #f4f1e6; }
 
 .gap { height: var(--gap); flex: none; background: #0b0907; }
 

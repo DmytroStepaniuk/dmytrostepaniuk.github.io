@@ -82,10 +82,160 @@
     }
   };
 
+  // Chalkboard: words scattered over the board are "written" left to right, one after
+  // another, by a hand that follows the chalk. Position, size and tilt come from the HTML.
+  // A word with data-center is centred on that x; a [data-chalk-line] underlines the item before it.
+  const NS = "http://www.w3.org/2000/svg";
+  const OFFSCREEN = { x: 1750, y: 1000 };
+  const lerp = (a, b, t) => a + (b - a) * t;
+
+  const boards = [...document.querySelectorAll("svg[data-board]")].map((svg) => {
+    const frame = frameOf(svg);
+    const els = [...svg.querySelectorAll("[data-word], [data-chalk-line]")];
+    const hand = svg.querySelector(".chalk-hand");
+    const defs = svg.querySelector("defs");
+    let items = [];
+    let segs = [];
+    let total = 1;
+
+    // a point given in an item's own (tilted) coordinates, mapped onto the board
+    const onBoard = (it, lx, ly) => {
+      const a = (it.rot * Math.PI) / 180;
+      const dx = lx - it.x;
+      const dy = ly - it.y;
+      return { x: it.x + dx * Math.cos(a) - dy * Math.sin(a), y: it.y + dx * Math.sin(a) + dy * Math.cos(a) };
+    };
+
+    const layout = () => {
+      items = [];
+      els.forEach((el) => {
+        if (el.hasAttribute("data-chalk-line")) {
+          const prev = items[items.length - 1];
+          const x1 = prev.x - 8;
+          const x2 = prev.x + prev.w + 8;
+          const y = prev.y + prev.size * 0.4;
+          el.setAttribute("d", `M${x1} ${y} Q${(x1 + x2) / 2} ${y - 8} ${x2} ${y + 3}`);
+          items.push({ el, x: x1, y, rot: 0, size: 60, w: x2 - x1, tipY: y, boxY: y - 30, boxH: 60 });
+          return;
+        }
+        const size = +(el.dataset.size || 84);
+        el.style.fontSize = `${size}px`;
+        const w = el.getComputedTextLength();
+        const x = el.dataset.center ? +el.dataset.center - w / 2 : +el.dataset.x;
+        const y = +el.dataset.y;
+        const rot = +(el.dataset.rot || 0);
+        el.setAttribute("x", x);
+        el.setAttribute("y", y);
+        el.setAttribute("transform", `rotate(${rot} ${x} ${y})`);
+        items.push({ el, x, y, rot, size, w, tipY: y - size * 0.3, boxY: y - size, boxH: size * 1.4 });
+      });
+
+      items.forEach((it, i) => {
+        const id = `board-clip-${i}`;
+        let clip = svg.querySelector(`#${id}`);
+        if (!clip) {
+          clip = document.createElementNS(NS, "clipPath");
+          clip.id = id;
+          clip.appendChild(document.createElementNS(NS, "rect"));
+          defs.appendChild(clip);
+          it.el.setAttribute("clip-path", `url(#${id})`);
+        }
+        it.rect = clip.firstChild;
+        it.rect.setAttribute("x", it.x - 10);
+        it.rect.setAttribute("y", it.boxY);
+        it.rect.setAttribute("height", it.boxH);
+        it.rect.setAttribute("width", 0);
+      });
+
+      // The hand's journey: in from the corner, write each item, back out
+      segs = [];
+      let at = OFFSCREEN;
+      items.forEach((it) => {
+        const start = onBoard(it, it.x, it.tipY);
+        segs.push({ type: "travel", from: at, to: start, cost: at === OFFSCREEN ? 220 : 160 });
+        segs.push({ type: "write", item: it, cost: it.w });
+        at = onBoard(it, it.x + it.w, it.tipY);
+      });
+      segs.push({ type: "travel", from: at, to: OFFSCREEN, cost: 220 });
+      total = segs.reduce((sum, sg) => sum + sg.cost, 0);
+    };
+
+    const update = (d) => {
+      if (!items.length) return;
+      let pos = clamp(d) * total;
+      items.forEach((it) => it.rect.setAttribute("width", 0));
+      let tip = OFFSCREEN;
+      for (const sg of segs) {
+        if (pos <= 0) break;
+        const t = clamp(pos / sg.cost);
+        if (sg.type === "travel") {
+          const e = ease(t);
+          tip = { x: lerp(sg.from.x, sg.to.x, e), y: lerp(sg.from.y, sg.to.y, e) };
+        } else {
+          const it = sg.item;
+          it.rect.setAttribute("width", t * (it.w + 24));
+          tip = onBoard(it, it.x + t * it.w, it.tipY + Math.sin((t * it.w) / 9) * 5);
+        }
+        pos -= sg.cost;
+      }
+      if (hand) hand.setAttribute("transform", `translate(${tip.x} ${tip.y})`);
+    };
+
+    layout();
+    update(0);
+    return { frame, layout, update };
+  });
+
+  // The press: a typewriter "prints" newspapers that fly up, one after another, into a row on a rope
+  const presses = [...document.querySelectorAll("svg[data-press]")].map((svg) => {
+    const frame = frameOf(svg);
+    const flyers = [...svg.querySelectorAll("[data-flyer]")].map((g) => ({
+      g,
+      tx: +g.dataset.tx,
+      ty: +g.dataset.ty,
+      rot: +(g.dataset.rot || 0),
+    }));
+    const typewriter = svg.querySelector(".typewriter");
+    const SLOT = { x: 800, y: 500 };
+    const START = 0.35;
+    const END = 0.98;
+    const span = (END - START) / (flyers.length - 1 + 1.6);
+
+    const update = (d) => {
+      let flying = false;
+      flyers.forEach((f, i) => {
+        const t = clamp((d - (START + i * span)) / (span * 1.6));
+        if (t <= 0) {
+          f.g.style.opacity = 0;
+          return;
+        }
+        f.g.style.opacity = 1;
+        if (t < 1) flying = true;
+        const e = ease(t);
+        const side = f.tx < SLOT.x ? -1 : 1;
+        const x = lerp(SLOT.x, f.tx, e) + Math.sin(e * Math.PI) * 50 * side;
+        const y = lerp(SLOT.y, f.ty, e) - Math.sin(e * Math.PI) * 90;
+        const scale = lerp(0.3, 1, e);
+        const rot = f.rot + (1 - e) * (i % 2 ? 50 : -50);
+        f.g.setAttribute("transform", `translate(${x} ${y}) rotate(${rot}) scale(${scale})`);
+      });
+      // the typewriter shakes a little while it is printing
+      if (typewriter) {
+        const jitter = flying ? (Math.floor(d * 300) % 2 ? 2 : -2) : 0;
+        typewriter.setAttribute("transform", `translate(0 ${jitter})`);
+      }
+    };
+
+    update(0);
+    return { frame, update };
+  });
+
   const render = (p) => {
     const q = clamp((p - introEnd) / (1 - introEnd));
     draw(q);
     showSubs(q);
+    boards.forEach((b) => b.update(progress(b.frame, q)));
+    presses.forEach((pr) => pr.update(progress(pr.frame, q)));
 
     // Each finished frame pushes the reel up by one frame (+ the dark gap between frames)
     let moved = 0;
@@ -126,7 +276,13 @@
     try { localStorage.setItem("lang", lang); } catch {}
   };
 
-  langButtons.forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
+  langButtons.forEach((b) =>
+    b.addEventListener("click", () => {
+      setLang(b.dataset.lang);
+      boards.forEach((board) => board.layout()); // the board title changes width with the language
+      render(current);
+    })
+  );
 
   let saved = null;
   try { saved = localStorage.getItem("lang"); } catch {}
@@ -164,6 +320,13 @@
     Promise.race([fontsReady, new Promise((r) => setTimeout(r, 1200))]).then(() =>
       intro.classList.add("is-playing")
     );
+  }
+
+  if (document.fonts) {
+    document.fonts.ready.then(() => {
+      boards.forEach((b) => b.layout());
+      render(current);
+    });
   }
 
   // Scratches and dust on the "film"
