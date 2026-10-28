@@ -31,7 +31,7 @@ body { font-family: var(--font); color: var(--ink); }
 }
 
 /* Scroll track: its height is the "film length" */
-.track { height: 2800vh; position: relative; }
+.track { height: 3200vh; position: relative; }
 
 .stage {
   position: sticky;
@@ -52,6 +52,11 @@ body { font-family: var(--font); color: var(--ink); }
   height: 100vh;
   flex: none;
   background: radial-gradient(ellipse at 50% 42%, #f3e9cd 0%, var(--wall) 55%, #b8a77f 100%);
+}
+
+/* a colder, greyer frame for the sad moment */
+.frame--grey {
+  background: radial-gradient(ellipse at 50% 42%, #e7e4da 0%, #cdcabe 55%, #96948a 100%);
 }
 
 .gap { height: var(--gap); flex: none; background: #0b0907; }
