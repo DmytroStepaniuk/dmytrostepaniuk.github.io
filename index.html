@@ -13,7 +13,7 @@
       <div class="stage">
         <div class="reel">
           <!-- Frame 1: graduation -->
-          <section class="frame" data-draw-from="0" data-draw-to=".24" data-advance-from=".27" data-advance-to=".31">
+          <section class="frame" data-draw-from="0" data-draw-to=".145" data-advance-from=".163" data-advance-to=".188">
             <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="img"
                  aria-label="Випускник у академічному капелюсі отримує диплом від чоловіка в костюмі біля університету"
                  data-en-label="A graduate in an academic cap receives a diploma from a man in a suit in front of the university">
@@ -133,7 +133,7 @@
           <div class="gap" aria-hidden="true"></div>
           <!-- Frame 2: placeholder -->
           <!-- Frame 2: first commercial experience (C++ and Qt) -->
-          <section class="frame" data-draw-from=".31" data-draw-to=".55" data-advance-from=".58" data-advance-to=".62">
+          <section class="frame" data-draw-from=".188" data-draw-to=".333" data-advance-from=".351" data-advance-to=".376">
             <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="img"
                  aria-label="Дві руки тримають табличку з написом QT"
                  data-en-label="Two hands hold up a sign that reads QT">
@@ -216,31 +216,392 @@
             </div>
           </section>
           <div class="gap" aria-hidden="true"></div>
-          <!-- Frame 3: scaffold. Copy the pattern of frame 2: add <g data-from data-to> groups
-               inside the .ink group, one subtitle in .subs, and keep the timing on the section. -->
-          <section class="frame" data-draw-from=".62" data-draw-to=".86">
+          <!-- Frame 3: joining MLSDev -->
+          <section class="frame" data-draw-from=".376" data-draw-to=".521" data-advance-from=".539" data-advance-to=".564">
             <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="img"
-                 aria-label="Заготовка третього кадру"
-                 data-en-label="Placeholder for the third frame">
+                 aria-label="Живий офіс: колеги за столами, а один грає на гітарі, стоячи на столі"
+                 data-en-label="A lively office: colleagues at their desks while one plays guitar standing on a desk">
               <g class="ink" filter="url(#wobble)">
-                <!-- ground -->
-                <g data-from="0" data-to=".15">
-                  <path d="M40 792 C400 786 800 796 1560 788"/>
+                <!-- lamps -->
+                <g data-from="0" data-to="0.08">
+                  <path d="M420 0 V70"/>
+                  <path d="M345 135 Q420 40 495 135 Z"/>
+                  <path d="M385 165 L372 195"/>
+                  <path d="M420 168 V205"/>
+                  <path d="M455 165 L468 195"/>
+                  <path d="M1130 0 V70"/>
+                  <path d="M1055 135 Q1130 40 1205 135 Z"/>
+                  <path d="M1095 165 L1082 195"/>
+                  <path d="M1130 168 V205"/>
+                  <path d="M1165 165 L1178 195"/>
                 </g>
-                <!-- sketch of the future scene: replace with the real drawing -->
-                <g data-from=".12" data-to=".60">
-                  <path d="M420 240 H1180 V700 H420 Z"/>
-                  <path d="M420 240 L1180 700"/>
-                  <path d="M1180 240 L420 700"/>
+
+                <!-- board with a checklist, window with a skyline -->
+                <g data-from="0.06" data-to="0.22">
+                  <path d="M40 210 L400 230 V470 H40 Z"/>
+                  <path d="M80 262 h34 v34 h-34 z"/>
+                  <path d="M88 280 l9 10 l14 -22"/>
+                  <path d="M150 280 H320"/>
+                  <path d="M80 322 h34 v34 h-34 z"/>
+                  <path d="M88 340 l9 10 l14 -22"/>
+                  <path d="M150 340 H290"/>
+                  <path d="M80 382 h34 v34 h-34 z"/>
+                  <path d="M88 400 l9 10 l14 -22"/>
+                  <path d="M150 400 H310"/>
+                  <path d="M320 330 h50 v60 h-50 z"/>
+                  <path d="M1250 120 H1580 V540 H1250 Z"/>
+                  <path d="M1415 120 V540"/>
+                  <path d="M1260 520 V440 H1300 V400 H1340 V470 H1380 V430 H1405 V520"/>
+                  <path d="M1425 520 V460 H1465 V380 H1515 V450 H1565 V520"/>
                 </g>
-                <g data-from=".55" data-to=".70" data-fade class="label">
-                  <text class="leaf-text" x="800" y="790" text-anchor="middle" data-en="Frame 3">Кадр 3</text>
+
+                <!-- plant -->
+                <g data-from="0.2" data-to="0.26">
+                  <path d="M30 560 H120 L108 660 H42 Z"/>
+                  <path d="M75 560 C40 520 40 480 70 450 C95 485 100 525 75 560 Z"/>
+                  <path d="M75 560 C110 540 140 520 150 480 C115 485 85 515 75 560 Z"/>
+                  <path d="M75 560 C45 540 20 520 5 500 C30 495 60 510 75 560 Z"/>
+                </g>
+
+                <!-- desks -->
+                <g data-from="0.24" data-to="0.36">
+                  <path d="M330 650 H940 V678 H330 Z"/>
+                  <path d="M355 678 V880"/>
+                  <path d="M915 678 V880"/>
+                  <path d="M960 600 H1230 V622 H960 Z"/>
+                  <path d="M1210 622 V820"/>
+                  <path d="M860 835 H1600"/>
+                </g>
+
+                <!-- man with sunglasses, feet up -->
+                <g data-from="0.34" data-to="0.46">
+                  <path d="M130 800 H290"/>
+                  <path d="M155 800 L125 690"/>
+                  <path d="M210 800 V880"/>
+                  <path d="M155 880 H265"/>
+                  <circle cx="180" cy="640" r="44"/>
+                  <path d="M146 630 h28 v18 h-28 z"/>
+                  <path d="M186 630 h28 v18 h-28 z"/>
+                  <path d="M174 636 H186"/>
+                  <path d="M146 636 L138 632"/>
+                  <path d="M165 662 Q180 674 196 662"/>
+                  <path d="M150 600 l-8 -16"/>
+                  <path d="M175 596 l-2 -20"/>
+                  <path d="M205 600 l8 -18"/>
+                  <path d="M180 688 L210 785"/>
+                  <path d="M182 705 L135 668 L168 640"/>
+                  <path d="M210 785 L305 772 L348 740"/>
+                  <path d="M348 740 l18 -6"/>
+                  <path d="M215 790 L290 800 L285 870"/>
+                </g>
+
+                <!-- colleague with coffee -->
+                <g data-from="0.44" data-to="0.54">
+                  <circle cx="410" cy="430" r="42"/>
+                  <path d="M372 410 q-36 -14 -30 14 q8 12 28 8"/>
+                  <path d="M395 425 q6 -8 12 0"/>
+                  <path d="M418 425 q6 -8 12 0"/>
+                  <path d="M395 445 Q410 460 428 445"/>
+                  <path d="M395 470 L355 650"/>
+                  <path d="M430 470 L470 650"/>
+                  <path d="M428 490 L490 515"/>
+                  <path d="M485 485 h42 v55 h-42 z"/>
+                  <path d="M485 497 q-18 0 -16 16 q2 12 16 10"/>
+                  <path d="M500 462 q-9 -10 0 -20 q9 -10 0 -20"/>
+                  <path d="M522 462 q-9 -10 0 -20"/>
+                </g>
+
+                <!-- guitarist standing on the desk -->
+                <g data-from="0.52" data-to="0.68">
+                  <circle cx="650" cy="300" r="50"/>
+                  <path d="M628 292 q8 -10 16 0"/>
+                  <path d="M660 292 q8 -10 16 0"/>
+                  <path d="M630 315 Q650 345 676 315 Z"/>
+                  <path d="M650 352 L645 520"/>
+                  <path d="M640 520 L605 650"/>
+                  <path d="M655 520 L705 650"/>
+                  <path d="M650 385 L675 495"/>
+                  <path d="M660 380 L803 322"/>
+                  <path d="M580 262 L555 248"/>
+                  <path d="M600 225 L580 200"/>
+                  <path d="M650 238 V205"/>
+                  <g transform="translate(735 420) rotate(-55) scale(0.95)">
+                    <path d="M10 0 L-205 -105 L-222 -82 L-90 0 L-222 82 L-205 105 Z" fill="#eadebf"/>
+                    <path d="M-45 -13 h12 v26 h-12 z" stroke-width="4"/>
+                    <path d="M-20 -13 h12 v26 h-12 z" stroke-width="4"/>
+                    <path d="M-75 -17 V17"/>
+                    <path d="M10 -11 H205"/>
+                    <path d="M10 11 H205"/>
+                    <path d="M205 -13 L245 -22 L252 0 L245 22 L205 13 Z"/>
+                    <path d="M220 -17 v-10" stroke-width="4"/>
+                    <path d="M236 -21 v-10" stroke-width="4"/>
+                    <path d="M220 17 v10" stroke-width="4"/>
+                    <path d="M236 21 v10" stroke-width="4"/>
+                    <path d="M60 -11 V11" stroke-width="3"/>
+                    <path d="M100 -11 V11" stroke-width="3"/>
+                    <path d="M140 -11 V11" stroke-width="3"/>
+                    <path d="M180 -11 V11" stroke-width="3"/>
+                    <path d="M-75 -4 H225" stroke-width="2"/>
+                    <path d="M-75 0 H225" stroke-width="2"/>
+                    <path d="M-75 4 H225" stroke-width="2"/>
+                  </g>
+                </g>
+
+                <!-- colleague with headphones -->
+                <g data-from="0.66" data-to="0.76">
+                  <circle cx="1000" cy="740" r="48"/>
+                  <path d="M950 740 C950 670 1050 670 1050 740"/>
+                  <ellipse cx="948" cy="745" rx="12" ry="22"/>
+                  <ellipse cx="1052" cy="745" rx="12" ry="22"/>
+                  <path d="M980 738 q8 8 16 0"/>
+                  <path d="M1008 738 q8 8 16 0"/>
+                  <path d="M985 765 Q1002 780 1020 765"/>
+                  <path d="M960 790 L930 835"/>
+                  <path d="M1040 790 L1070 835"/>
+                  <path d="M880 760 C860 800 870 820 890 835"/>
+                </g>
+
+                <!-- cheering colleague -->
+                <g data-from="0.74" data-to="0.84" transform="translate(-45 0)">
+                  <circle cx="1160" cy="440" r="44"/>
+                  <path d="M1138 430 q8 -8 16 0"/>
+                  <path d="M1168 430 q8 -8 16 0"/>
+                  <path d="M1138 455 Q1160 485 1182 455 Z"/>
+                  <path d="M1160 484 V600"/>
+                  <path d="M1135 505 L1085 440"/>
+                  <circle cx="1078" cy="432" r="12"/>
+                  <path d="M1185 505 L1235 440"/>
+                  <circle cx="1243" cy="432" r="12"/>
+                                                    </g>
+
+                <!-- laptops, mugs, books -->
+                <g data-from="0.8" data-to="0.9">
+                  <path d="M985 505 H1085 V592 H985 Z"/>
+                  <circle cx="1035" cy="548" r="6"/>
+                  <path d="M1250 705 H1390 V815 H1250 Z"/>
+                  <circle cx="1320" cy="760" r="8"/>
+                  <path d="M1230 825 H1410"/>
+                  <path d="M1450 780 v50 h45 v-50 z"/>
+                  <path d="M1495 790 q22 0 0 28"/>
+                  <path d="M760 610 h50 v40 h-50 z"/>
+                  <path d="M835 625 H915 V650"/>
+                  <path d="M835 625 V650"/>
+                </g>
+
+                <!-- music notes -->
+                <g data-from="0.88" data-to="1">
+                  <ellipse cx="868" cy="153" rx="14" ry="10"/>
+                  <path d="M882 150 V90 L925 108"/>
+                  <ellipse cx="996" cy="278" rx="10" ry="8"/>
+                  <path d="M1006 275 V235 L1031 245"/>
                 </g>
               </g>
             </svg>
             <div class="subs">
-              <p data-show-from=".72" data-show-to="1.1"
-                 data-en="The next chapter goes here.">Тут буде наступний розділ.</p>
+              <p data-show-from=".84" data-show-to="1.1"
+                 data-en="In 2015 I joined MLSDev — a company of really cool people.">У 2015 році я доєднався до MLSDev — компанії крутих людей.</p>
+            </div>
+          </section>
+
+          <div class="gap" aria-hidden="true"></div>
+
+          <!-- Frame 4: Ruby and Rails -->
+          <section class="frame" data-draw-from=".564" data-draw-to=".709" data-advance-from=".727" data-advance-to=".752">
+            <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="img"
+                 aria-label="Серце з коштовним каменем усередині, наскрізь пронизане стрілою"
+                 data-en-label="A heart with a gem inside, pierced by an arrow">
+              <g class="ink" filter="url(#wobble)">
+                <!-- the heart -->
+                <g data-from="0" data-to="0.25">
+                  <path d="M795 797 C657 636 470 525 470 380 C470 270 555 204 648 204 C708 204 759 228 795 274 C836 228 886 204 946 204 C1040 204 1112 278 1112 372 C1112 525 929 644 795 797 Z"/>
+                </g>
+                <!-- the gem (a ruby) inside -->
+                <g data-from="0.22" data-to="0.45">
+                  <path d="M691 351 L810 319 L919 319 L997 413 L789 652 L599 474 Z"/>
+                  <path d="M691 351 L727 444"/>
+                  <path d="M727 444 L859 391"/>
+                  <path d="M859 391 L919 319"/>
+                  <path d="M859 391 L997 413"/>
+                  <path d="M599 474 L727 444"/>
+                  <path d="M727 444 L789 652"/>
+                  <path d="M859 391 L789 652"/>
+                </g>
+                <!-- arrow: tail -->
+                <g data-from="0.42" data-to="0.58">
+                  <path d="M321 629 L610 532 L642 561 L336 654 Z" fill="#eadebf"/>
+                  <path d="M258 576 L375 538 L446 578 L330 620 Z" fill="#eadebf"/>
+                  <path d="M313 568 L376 606"/>
+                  <path d="M292 738 L364 719 L406 634 L341 657 Z" fill="#eadebf"/>
+                  <path d="M330 731 L381 665"/>
+                </g>
+                <!-- arrow: head -->
+                <g data-from="0.56" data-to="0.7">
+                  <path d="M1027 413 L1201 359 L1192 408 L1022 459 Z" fill="#eadebf"/>
+                  <path d="M1158 291 L1341 319 L1208 472 L1192 408 L1201 359 Z" fill="#eadebf"/>
+                </g>
+                <!-- small hearts -->
+                <g data-from="0.68" data-to="0.84">
+                  <path d="M1130 186 C1095 123 1122 77 1151 90 C1163 96 1167 106 1163 115 C1167 106 1178 103 1189 108 C1218 121 1201 172 1130 186 Z"/>
+                  <path d="M342 437 C287 422 277 380 301 372 C310 368 319 371 321 380 C319 371 323 364 332 360 C357 352 375 390 342 437 Z"/>
+                  <path d="M1206 800 C1167 757 1180 717 1205 722 C1215 724 1221 732 1219 740 C1221 732 1228 727 1238 729 C1263 734 1259 777 1206 800 Z"/>
+                </g>
+                <!-- rays -->
+                <g data-from="0.82" data-to="0.96">
+                  <path d="M423 151 L496 206"/>
+                  <path d="M525 74 L572 155"/>
+                  <path d="M657 83 L648 155"/>
+                  <path d="M364 268 L444 289"/>
+                  <path d="M1095 583 L1180 610"/>
+                  <path d="M1040 652 L1095 699"/>
+                  <path d="M976 708 L997 772"/>
+                </g>
+              </g>
+            </svg>
+            <div class="subs">
+              <p data-show-from=".60" data-show-to="1.1"
+                 data-en="My career began with Ruby and Rails — a beautiful technology of its time that brought lots of joy, experience and happy clients.">Початок кар’єри — Ruby та Ruby on Rails: прекрасна технологія свого часу, що подарувала безліч позитивних емоцій, досвіду та щасливих клієнтів.</p>
+            </div>
+          </section>
+
+          <div class="gap" aria-hidden="true"></div>
+
+          <!-- Frame 5: outsource and outstaff, from tiny teams to huge companies -->
+          <section class="frame" data-draw-from=".752" data-draw-to=".93">
+            <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="img"
+                 aria-label="Маленький вітрильник з командою біля величезного лайнера з людьми у вікнах, вдалині лінкор і ще вітрильники"
+                 data-en-label="A small sailboat with a tiny crew next to a huge liner full of people, with a battleship and more sailboats in the distance">
+              <g class="ink" filter="url(#wobble)">
+                <!-- sun, clouds, gulls -->
+                <g data-from="0" data-to="0.1">
+                  <circle cx="200" cy="170" r="55"/>
+                  <path d="M278 170 L302 170"/>
+                  <path d="M255 225 L272 242"/>
+                  <path d="M200 248 L200 272"/>
+                  <path d="M145 225 L128 242"/>
+                  <path d="M122 170 L98 170"/>
+                  <path d="M145 115 L128 98"/>
+                  <path d="M200 92 L200 68"/>
+                  <path d="M255 115 L272 98"/>
+                  <path d="M520 170 q-30 0 -25 -25 q5 -22 35 -18 q8 -30 45 -22 q30 -18 55 8 q38 -5 40 25 q5 32 -30 32 Z"/>
+                  <path d="M1180 130 q-25 0 -20 -20 q4 -18 28 -14 q6 -24 36 -18 q24 -14 44 6 q30 -4 32 20 q4 26 -24 26 Z"/>
+                  <path d="M760 120 q14 -18 28 0 q14 -18 28 0"/>
+                  <path d="M880 175 q10 -14 20 0 q10 -14 20 0"/>
+                  <path d="M1010 95 q8 -12 16 0 q8 -12 16 0"/>
+                </g>
+                <!-- horizon and distant sailboats -->
+                <g data-from="0.08" data-to="0.18">
+                  <path d="M0 520 H1600"/>
+                  <path d="M80 520 H140 L132 534 H88 Z"/>
+                  <path d="M110 520 V462"/>
+                  <path d="M113 466 L140 516 H113 Z"/>
+                  <path d="M1518 520 H1578 L1570 534 H1526 Z"/>
+                  <path d="M1548 520 V462"/>
+                  <path d="M1551 466 L1578 516 H1551 Z"/>
+                </g>
+                <!-- battleship on the horizon -->
+                <g data-from="0.16" data-to="0.32">
+                  <path d="M470 522 H800 L835 536 L800 548 H495 Z"/>
+                  <path d="M600 522 V490 H660 V462 H700 V522"/>
+                  <path d="M680 462 V415"/>
+                  <path d="M668 428 H692"/>
+                  <path d="M680 415 l26 8 l-26 8"/>
+                  <path d="M630 490 v-26 h20 v26"/>
+                  <path d="M740 522 v-16 h36 v16"/>
+                  <path d="M776 513 H826"/>
+                  <path d="M520 522 v-16 h36 v16"/>
+                  <path d="M556 513 H598"/>
+                </g>
+                <!-- sailboat -->
+                <g data-from="0.3" data-to="0.4">
+                  <path d="M180 640 H430 L390 705 H225 Z"/>
+                  <path d="M305 640 V385"/>
+                  <path d="M305 385 l38 10 l-38 10"/>
+                  <path d="M312 400 L430 560 H312 Z"/>
+                  <path d="M305 560 H435"/>
+                  <path d="M298 430 L215 560 H298 Z"/>
+                </g>
+                <!-- small team on the sailboat (Dmytro waves) -->
+                <g data-from="0.38" data-to="0.48">
+                  <circle cx="225" cy="603" r="13"/>
+                  <path d="M225 616 V634"/>
+                  <path d="M225 634 l-7 6"/>
+                  <path d="M225 634 l7 6"/>
+                  <path d="M225 622 L205 612"/>
+                  <path d="M225 622 L246 599"/>
+                  <circle cx="258" cy="606" r="13"/>
+                  <path d="M258 619 V637"/>
+                  <path d="M258 637 l-7 6"/>
+                  <path d="M258 637 l7 6"/>
+                  <path d="M258 628 l-10 8"/>
+                  <path d="M258 628 l10 8"/>
+                  <circle cx="345" cy="606" r="13"/>
+                  <path d="M345 619 V637"/>
+                  <path d="M345 637 l-7 6"/>
+                  <path d="M345 637 l7 6"/>
+                  <path d="M345 628 l-10 8"/>
+                  <path d="M345 628 l10 8"/>
+                  <circle cx="390" cy="606" r="13"/>
+                  <path d="M390 619 V637"/>
+                  <path d="M390 637 l-7 6"/>
+                  <path d="M390 637 l7 6"/>
+                  <path d="M390 628 l-10 8"/>
+                  <path d="M390 628 l10 8"/>
+                </g>
+                <!-- liner hull and portholes -->
+                <g data-from="0.46" data-to="0.6">
+                  <path d="M850 600 H1500 L1445 705 H905 Z"/>
+                  <path d="M926 640 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M981 640 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M1036 640 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M1091 640 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M1146 640 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M1201 640 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M1256 640 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M1311 640 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M1366 640 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0"/>
+                  <path d="M946 672 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M1001 672 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M1056 672 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M1111 672 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M1166 672 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M1221 672 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M1276 672 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M1331 672 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M1386 672 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0"/>
+                </g>
+                <!-- liner decks -->
+                <g data-from="0.58" data-to="0.72">
+                  <path d="M905 600 V545 H1440 V600"/>
+                  <path d="M965 545 V490 H1385 V545"/>
+                  <path d="M1040 490 V440 H1310 V490"/>
+                  <path d="M1120 440 V405 H1230 V440"/>
+                </g>
+                <!-- funnels and smoke -->
+                <g data-from="0.7" data-to="0.78">
+                  <path d="M1065 440 V370 H1100 V440"/>
+                  <path d="M1065 385 H1100"/>
+                  <path d="M1250 440 V370 H1285 V440"/>
+                  <path d="M1250 385 H1285"/>
+                  <path d="M1082 360 q-14 -18 4 -32 q18 -14 0 -30"/>
+                  <path d="M1267 360 q-14 -18 4 -32 q18 -14 0 -30"/>
+                </g>
+                <!-- windows with people looking out (the crowd of 500) -->
+                <g data-from="0.76" data-to="0.86">
+                  <path d="M925 560 h16 v16 h-16 z M963 560 h16 v16 h-16 z M1001 560 h16 v16 h-16 z M1039 560 h16 v16 h-16 z M1077 560 h16 v16 h-16 z M1115 560 h16 v16 h-16 z M1153 560 h16 v16 h-16 z M1191 560 h16 v16 h-16 z M1229 560 h16 v16 h-16 z M1267 560 h16 v16 h-16 z M1305 560 h16 v16 h-16 z M1343 560 h16 v16 h-16 z M1381 560 h16 v16 h-16 z M1419 560 h16 v16 h-16 z"/>
+                  <path d="M929 568 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M967 568 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1005 568 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1043 568 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1081 568 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1119 568 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1157 568 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1195 568 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1233 568 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1271 568 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1309 568 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1347 568 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1385 568 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1423 568 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0"/>
+                  <path d="M985 505 h16 v16 h-16 z M1023 505 h16 v16 h-16 z M1061 505 h16 v16 h-16 z M1099 505 h16 v16 h-16 z M1137 505 h16 v16 h-16 z M1175 505 h16 v16 h-16 z M1213 505 h16 v16 h-16 z M1251 505 h16 v16 h-16 z M1289 505 h16 v16 h-16 z M1327 505 h16 v16 h-16 z M1365 505 h16 v16 h-16 z"/>
+                  <path d="M989 513 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1027 513 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1065 513 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1103 513 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1141 513 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1179 513 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1217 513 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1255 513 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1293 513 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1331 513 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1369 513 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0"/>
+                  <path d="M1060 450 h16 v16 h-16 z M1098 450 h16 v16 h-16 z M1136 450 h16 v16 h-16 z M1174 450 h16 v16 h-16 z M1212 450 h16 v16 h-16 z M1250 450 h16 v16 h-16 z M1288 450 h16 v16 h-16 z"/>
+                  <path d="M1064 458 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1102 458 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1140 458 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1178 458 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1216 458 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1254 458 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M1292 458 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0"/>
+                </g>
+                <!-- rope between the boat and the liner -->
+                <g data-from="0.84" data-to="0.9">
+                  <path d="M420 668 Q650 740 898 672"/>
+                  <circle cx="905" cy="668" r="9"/>
+                </g>
+                <!-- waves and two buoys -->
+                <g data-from="0.88" data-to="0.96">
+                  <path d="M0 742 q20 -12 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0"/>
+                  <path d="M-20 860 q20 -12 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0"/>
+                  <circle cx="640" cy="806" r="16"/>
+                  <path d="M624 806 H656"/>
+                  <circle cx="860" cy="806" r="16"/>
+                  <path d="M844 806 H876"/>
+                </g>
+                <!-- buoy labels -->
+                <g data-from=".94" data-to="1" data-fade class="label">
+                  <text class="buoy-text" x="640" y="776" text-anchor="middle">outsource</text>
+                  <text class="buoy-text" x="860" y="776" text-anchor="middle">outstaff</text>
+                </g>
+              </g>
+            </svg>
+            <div class="subs">
+              <p data-show-from=".80" data-show-to="1.1"
+                 data-en="Worked in both outsource and outstaff: from projects of 2–5 people to companies of 500.">Працював і в outsource, і в outstaff: від проєктів на 2–5 людей до компаній на 500.</p>
             </div>
           </section>
         </div>

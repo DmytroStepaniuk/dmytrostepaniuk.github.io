@@ -31,7 +31,7 @@ body { font-family: var(--font); color: var(--ink); }
 }
 
 /* Scroll track: its height is the "film length" */
-.track { height: 1600vh; position: relative; }
+.track { height: 2400vh; position: relative; }
 
 .stage {
   position: sticky;
@@ -69,7 +69,7 @@ body { font-family: var(--font); color: var(--ink); }
 }
 /* With JS, start hidden so the finished scene never flashes before main.js runs
    (main.js sets inline opacity, which overrides these). Without JS it stays drawn. */
-.js .ink [data-from]:not([data-fade]) > *,
+.js .ink [data-from]:not([data-fade]) :is(path, circle, ellipse, line),
 .js [data-fade] { opacity: 0; }
 
 .ink .label text {
@@ -122,15 +122,14 @@ body { font-family: var(--font); color: var(--ink); }
   50%      { opacity: 1;   transform: scale(1.05); }
 }
 
+.ink .label .buoy-text {
+  font-size: 34px;
+  font-weight: 500;
+}
+
 .ink .label .sign-text {
   font-size: 300px;
   font-weight: 700;
-}
-
-.ink .label .leaf-text {
-  font-size: 62px;
-  font-weight: 700;
-  letter-spacing: 1px;
 }
 
 .ink .label .arch-text {
