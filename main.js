@@ -230,12 +230,172 @@
     return { frame, update };
   });
 
+  // The seesaw: a horse falls onto one end of a plank, speeding up; the other end
+  // throws the infantrymen into the air. Geometry mirrors the HTML (pivot, plank thickness).
+  const seesaws = [...document.querySelectorAll("svg[data-seesaw]")].map((svg) => {
+    const frame = frameOf(svg);
+    const PIVOT = { x: 800, y: 700 };
+    const THICK = 22;
+    const TILT = 11;
+    const HORSE_U = 300;
+    const FALL_FROM = 0.22;
+    const HIT = 0.55;
+    const plank = svg.querySelector("[data-plank]");
+    const horse = svg.querySelector("[data-horse]");
+    const speed = svg.querySelector("[data-speed]");
+    const dust = svg.querySelector("[data-dust]");
+    const soldiers = [...svg.querySelectorAll("[data-soldier]")].map((el, i) => ({
+      el,
+      u: +el.dataset.u,
+      tall: +el.dataset.tall,
+      start: HIT + i * 0.012,
+      phase: i * 0.07,
+    }));
+
+    // a point on the plank's top face, in screen coordinates
+    const onPlank = (u, deg) => {
+      const a = (deg * Math.PI) / 180;
+      return {
+        x: PIVOT.x + u * Math.cos(a) + THICK * Math.sin(a),
+        y: PIVOT.y + u * Math.sin(a) - THICK * Math.cos(a),
+      };
+    };
+
+    const update = (d) => {
+      // plank: right end up until the hit, then it slams down
+      const swing = 1 - Math.pow(1 - clamp((d - HIT) / 0.1), 3);
+      const deg = lerp(-TILT, TILT, swing);
+      plank.setAttribute("transform", `translate(${PIVOT.x} ${PIVOT.y}) rotate(${deg})`);
+
+      // horse: quadratic fall (accelerating), then it rides the plank
+      const rest = onPlank(HORSE_U, -TILT);
+      if (d < FALL_FROM) {
+        horse.style.opacity = 0;
+      } else {
+        horse.style.opacity = 1;
+        const t = clamp((d - FALL_FROM) / (HIT - FALL_FROM));
+        let p = { x: rest.x, y: lerp(-40, rest.y, t * t) };
+        let rot = lerp(-22, -TILT, t);
+        if (d >= HIT) {
+          p = onPlank(HORSE_U, deg);
+          rot = deg;
+        }
+        horse.setAttribute("transform", `translate(${p.x} ${p.y}) rotate(${rot})`);
+        if (speed) {
+          speed.style.opacity = d < HIT ? clamp(t * 2.5) : 0;
+          speed.setAttribute("transform", `rotate(${-rot})`); // keep the lines vertical
+        }
+      }
+
+      // dust cloud at the impact point
+      if (dust) {
+        const t = clamp((d - HIT) / 0.2);
+        dust.style.opacity = t > 0 && t < 1 ? 1 - t : 0;
+        dust.setAttribute("transform", `translate(${rest.x} ${rest.y}) scale(${0.4 + 0.9 * t})`);
+      }
+
+      // infantrymen: stand on the plank, get flung up, land, then cheer with two hops
+      soldiers.forEach((s) => {
+        const p = onPlank(s.u, deg);
+        const fly = clamp((d - s.start) / 0.26);
+        let lift = s.tall * Math.sin(Math.PI * fly);
+        const w = clamp((d - 0.86 - s.phase) / (0.12 - s.phase));
+        lift += 38 * Math.abs(Math.sin(w * Math.PI * 2));
+        s.el.style.opacity = clamp((d - 0.1) / 0.06);
+        s.el.setAttribute("transform", `translate(${p.x} ${p.y - lift}) scale(.82)`);
+      });
+    };
+
+    update(0);
+    return { frame, update };
+  });
+
+  // Quiz: pick an answer. Right: confetti. Wrong: the screen flashes red and the right answer lights up.
+  const flash = document.createElement("div");
+  flash.className = "flash";
+  flash.setAttribute("aria-hidden", "true");
+  document.body.append(flash);
+
+  const confetti = () => {
+    if (reduced) return;
+    const cv = document.createElement("canvas");
+    cv.className = "confetti";
+    cv.width = innerWidth;
+    cv.height = innerHeight;
+    document.body.append(cv);
+    const ctx = cv.getContext("2d");
+    const colors = ["#c23a2e", "#ffd84a", "#2f9e44", "#2b6fd6", "#f7f1de", "#e07bb4"];
+    const bits = Array.from({ length: 220 }, () => ({
+      x: Math.random() * cv.width,
+      y: -20 - Math.random() * cv.height * 0.6,
+      vx: (Math.random() - 0.5) * 3,
+      vy: 2 + Math.random() * 4,
+      w: 6 + Math.random() * 8,
+      h: 10 + Math.random() * 8,
+      a: Math.random() * Math.PI,
+      va: (Math.random() - 0.5) * 0.3,
+      c: colors[Math.floor(Math.random() * colors.length)],
+    }));
+    const t0 = performance.now();
+    const tick = (now) => {
+      const t = now - t0;
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      ctx.globalAlpha = clamp((5000 - t) / 1200);
+      for (const b of bits) {
+        b.x += b.vx + Math.sin(b.a) * 0.8;
+        b.y += b.vy;
+        b.a += b.va;
+        ctx.save();
+        ctx.translate(b.x, b.y);
+        ctx.rotate(b.a);
+        ctx.fillStyle = b.c;
+        ctx.fillRect(-b.w / 2, -b.h / 2, b.w, b.h);
+        ctx.restore();
+      }
+      if (t < 5000) requestAnimationFrame(tick);
+      else cv.remove();
+    };
+    requestAnimationFrame(tick);
+  };
+
+  document.querySelectorAll("svg[data-quiz]").forEach((svg) => {
+    const opts = [...svg.querySelectorAll("[data-opt]")];
+    const results = [...svg.querySelectorAll("[data-result]")];
+    const pick = (opt) => {
+      // ignore clicks while the answers are still being drawn
+      if (+getComputedStyle(opt.closest("[data-fade]")).opacity < 0.9) return;
+      const ok = opt.hasAttribute("data-correct");
+      opts.forEach((o) => o.classList.remove("is-right", "is-wrong", "is-reveal"));
+      results.forEach((r) => (r.style.opacity = r.dataset.result === (ok ? "ok" : "bad") ? 1 : 0));
+      if (ok) {
+        opt.classList.add("is-right");
+        confetti();
+      } else {
+        opt.classList.add("is-wrong");
+        opts.find((o) => o.hasAttribute("data-correct")).classList.add("is-reveal");
+        flash.classList.remove("on");
+        void flash.offsetWidth;
+        flash.classList.add("on");
+      }
+    };
+    opts.forEach((o) => {
+      o.addEventListener("click", () => pick(o));
+      o.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          pick(o);
+        }
+      });
+    });
+  });
+
   const render = (p) => {
     const q = clamp((p - introEnd) / (1 - introEnd));
     draw(q);
     showSubs(q);
     boards.forEach((b) => b.update(progress(b.frame, q)));
     presses.forEach((pr) => pr.update(progress(pr.frame, q)));
+    seesaws.forEach((s) => s.update(progress(s.frame, q)));
 
     // Each finished frame pushes the reel up by one frame (+ the dark gap between frames)
     let moved = 0;

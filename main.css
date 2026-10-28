@@ -31,7 +31,7 @@ body { font-family: var(--font); color: var(--ink); }
 }
 
 /* Scroll track: its height is the "film length" */
-.track { height: 6342vh; position: relative; }
+.track { height: 7286vh; position: relative; }
 
 .stage {
   position: sticky;
@@ -412,3 +412,25 @@ body { font-family: var(--font); color: var(--ink); }
   .stage, .grain, .flicker, .hint, .halo { animation: none; }
   .intro.is-playing .intro__card { animation: none; opacity: 1; }
 }
+
+/* quiz frame */
+.ink .quiz-banner { font-size: 44px; fill: #ffd84a; text-transform: none; }
+.ink .quiz-q { font-size: 46px; fill: #f7f1de; text-transform: none; }
+.ink .quiz-res { font-size: 38px; fill: #ffd84a; text-transform: none; }
+.ink .quiz-bad { font-size: 32px; }
+.opt { cursor: pointer; outline: none; }
+.opt-bg { fill: #101a3c; stroke: #c9a227; stroke-width: 5; }
+.opt:hover .opt-bg { fill: #2b3f8a; }
+.opt:focus-visible .opt-bg { stroke: #ffd84a; stroke-width: 9; }
+.ink .opt-l { font-family: var(--font); font-weight: 700; font-size: 38px; fill: #ffd84a; stroke: none; }
+.ink .opt-t { font-family: var(--font); font-weight: 500; font-size: 36px; fill: #f7f1de; stroke: none; }
+.opt.is-right .opt-bg { fill: #2f9e44; }
+.opt.is-wrong .opt-bg { fill: #c23a2e; }
+.opt.is-reveal .opt-bg { fill: #2f9e44; animation: pulse .7s ease-in-out 4 alternate; }
+@keyframes pulse { from { stroke: #c9a227; stroke-width: 5; } to { stroke: #ffd84a; stroke-width: 14; } }
+
+.flash, .confetti { position: fixed; inset: 0; pointer-events: none; z-index: 50; }
+.flash { background: #c23a2e; opacity: 0; }
+.flash.on { animation: flash-red 2.8s ease-out; }
+@keyframes flash-red { 0% { opacity: 0; } 8% { opacity: .65; } 65% { opacity: .5; } 100% { opacity: 0; } }
+.confetti { width: 100%; height: 100%; }
