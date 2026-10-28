@@ -56,7 +56,8 @@ body { font-family: var(--font); color: var(--ink); }
 
 .gap { height: var(--gap); flex: none; background: #0b0907; }
 
-.frame svg { width: 100%; height: 100%; display: block; }
+/* the drawing keeps to the upper part of the frame; the lower part is for subtitles */
+.frame svg { width: 100%; height: 76%; display: block; }
 
 /* hand-drawn ink */
 .ink {
@@ -69,7 +70,7 @@ body { font-family: var(--font); color: var(--ink); }
 /* With JS, start hidden so the finished scene never flashes before main.js runs
    (main.js sets inline opacity, which overrides these). Without JS it stays drawn. */
 .js .ink [data-from]:not([data-fade]) > *,
-.js .ink [data-fade] { opacity: 0; }
+.js [data-fade] { opacity: 0; }
 
 .ink .label text {
   fill: var(--ink);
@@ -106,6 +107,25 @@ body { font-family: var(--font); color: var(--ink); }
 }
 .js .subs { display: grid; justify-items: center; }
 .js .subs p { grid-area: 1 / 1; opacity: 0; }
+
+/* warm glow around the sign scene */
+.glow-lines {
+  filter: drop-shadow(0 0 8px rgba(255, 185, 60, .85)) drop-shadow(0 0 22px rgba(255, 200, 90, .6));
+}
+.halo {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: haloPulse 3.4s ease-in-out infinite;
+}
+@keyframes haloPulse {
+  0%, 100% { opacity: .85; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.05); }
+}
+
+.ink .label .sign-text {
+  font-size: 300px;
+  font-weight: 700;
+}
 
 .ink .label .leaf-text {
   font-size: 62px;
@@ -305,6 +325,6 @@ body { font-family: var(--font); color: var(--ink); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .stage, .grain, .flicker, .hint { animation: none; }
+  .stage, .grain, .flicker, .hint, .halo { animation: none; }
   .intro.is-playing .intro__card { animation: none; opacity: 1; }
 }
