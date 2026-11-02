@@ -1,11 +1,51 @@
 (() => {
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // WebKit (Safari, and every browser on iOS) re-runs the feTurbulence wobble filter on each
-  // repaint of the drawn groups, which makes scrolling stutter; Blink handles it fine.
-  if (/AppleWebKit/.test(navigator.userAgent) && !/(Chrome|Chromium|Edg|OPR|Android)\//.test(navigator.userAgent)) {
-    document.documentElement.classList.add("webkit-lite");
-    document.querySelectorAll('[filter="url(#wobble)"]').forEach((el) => el.removeAttribute("filter"));
+  // Settings (the gear popup). WebKit (Safari, and every browser on iOS) re-runs the feTurbulence
+  // wobble filter and the film layers on each repaint, which makes scrolling stutter; Blink copes.
+  // So both default to off there, and the visitor can change either in the popup.
+  const isWebKit =
+    /AppleWebKit/.test(navigator.userAgent) && !/(Chrome|Chromium|Edg|OPR|Android)\//.test(navigator.userAgent);
+  const settings = { film: !isWebKit, wobble: !isWebKit };
+  try {
+    Object.assign(settings, JSON.parse(localStorage.getItem("settings") || "{}"));
+  } catch {}
+  const wobbleEls = [...document.querySelectorAll('[filter="url(#wobble)"]')];
+  const applySettings = () => {
+    document.documentElement.classList.toggle("no-film", !settings.film);
+    wobbleEls.forEach((el) =>
+      settings.wobble ? el.setAttribute("filter", "url(#wobble)") : el.removeAttribute("filter")
+    );
+  };
+  applySettings();
+
+  const dialog = document.querySelector("dialog.settings");
+  const gear = document.querySelector(".gear");
+  if (dialog && gear) {
+    const boxes = [...dialog.querySelectorAll("[data-setting]")];
+    dialog.querySelector(".settings__safari").hidden = !isWebKit;
+    // the switches always mirror `settings` (Safari may otherwise restore stale form state)
+    const sync = () => boxes.forEach((b) => (b.checked = !!settings[b.dataset.setting]));
+    sync();
+    addEventListener("pageshow", sync);
+    gear.addEventListener("click", () => {
+      sync();
+      dialog.showModal();
+      requestAnimationFrame(sync);
+    });
+    boxes.forEach((b) =>
+      b.addEventListener("change", () => {
+        settings[b.dataset.setting] = b.checked;
+        applySettings();
+        try {
+          localStorage.setItem("settings", JSON.stringify(settings));
+        } catch {}
+      })
+    );
+    dialog.querySelector(".settings__close").addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", (e) => {
+      if (e.target === dialog) dialog.close();
+    });
   }
 
   const track = document.querySelector(".track");
