@@ -1,6 +1,13 @@
 (() => {
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // WebKit (Safari, and every browser on iOS) re-runs the feTurbulence wobble filter on each
+  // repaint of the drawn groups, which makes scrolling stutter; Blink handles it fine.
+  if (/AppleWebKit/.test(navigator.userAgent) && !/(Chrome|Chromium|Edg|OPR|Android)\//.test(navigator.userAgent)) {
+    document.documentElement.classList.add("webkit-lite");
+    document.querySelectorAll('[filter="url(#wobble)"]').forEach((el) => el.removeAttribute("filter"));
+  }
+
   const track = document.querySelector(".track");
   const reel = document.querySelector(".reel");
   const intro = document.querySelector(".intro");
@@ -230,79 +237,74 @@
     return { frame, update };
   });
 
-  // The seesaw: a horse falls onto one end of a plank, speeding up; the other end
-  // throws the infantrymen into the air. Geometry mirrors the HTML (pivot, plank thickness).
-  const seesaws = [...document.querySelectorAll("svg[data-seesaw]")].map((svg) => {
+  // The impact scene: a chess knight falls onto the board (slow start, heavy landing), the board
+  // dips, the screen shakes and the pawns behind it hop outwards from the centre like a shockwave.
+  // Geometry mirrors the HTML (board top at y=750, centre x=800).
+  const impacts = [...document.querySelectorAll("svg[data-impact]")].map((svg) => {
     const frame = frameOf(svg);
-    const PIVOT = { x: 800, y: 700 };
-    const THICK = 22;
-    const TILT = 11;
-    const HORSE_U = 300;
+    const CX = 800;
+    const TOP = 750;
     const FALL_FROM = 0.22;
-    const HIT = 0.55;
-    const plank = svg.querySelector("[data-plank]");
+    const HIT = 0.6;
+    const world = svg.querySelector("[data-shake]");
+    const board = svg.querySelector("[data-board]");
     const horse = svg.querySelector("[data-horse]");
     const speed = svg.querySelector("[data-speed]");
+    const wave = svg.querySelector("[data-wave]");
     const dust = svg.querySelector("[data-dust]");
-    const soldiers = [...svg.querySelectorAll("[data-soldier]")].map((el, i) => ({
-      el,
-      u: +el.dataset.u,
-      tall: +el.dataset.tall,
-      start: HIT + i * 0.012,
-      phase: i * 0.07,
-    }));
-
-    // a point on the plank's top face, in screen coordinates
-    const onPlank = (u, deg) => {
-      const a = (deg * Math.PI) / 180;
+    const pawns = [...svg.querySelectorAll("[data-pawn]")].map((el, i) => {
+      const x = +el.dataset.x;
       return {
-        x: PIVOT.x + u * Math.cos(a) + THICK * Math.sin(a),
-        y: PIVOT.y + u * Math.sin(a) - THICK * Math.cos(a),
+        el,
+        x,
+        y: +el.dataset.y,
+        s: +el.dataset.s,
+        hop: +el.dataset.hop,
+        start: HIT + (Math.abs(x - CX) / 1500) * 0.08,
+        tilt: i % 2 ? 7 : -7,
       };
-    };
+    });
 
     const update = (d) => {
-      // plank: right end up until the hit, then it slams down
-      const swing = 1 - Math.pow(1 - clamp((d - HIT) / 0.1), 3);
-      const deg = lerp(-TILT, TILT, swing);
-      plank.setAttribute("transform", `translate(${PIVOT.x} ${PIVOT.y}) rotate(${deg})`);
+      const after = d >= HIT;
+      const k = clamp((d - HIT) / 0.25);
+      const dip = after ? 14 * Math.exp(-5 * k) * Math.cos(k * Math.PI * 3) : 0;
+      board.setAttribute("transform", `translate(0 ${dip})`);
 
-      // horse: quadratic fall (accelerating), then it rides the plank
-      const rest = onPlank(HORSE_U, -TILT);
-      if (d < FALL_FROM) {
-        horse.style.opacity = 0;
-      } else {
-        horse.style.opacity = 1;
-        const t = clamp((d - FALL_FROM) / (HIT - FALL_FROM));
-        let p = { x: rest.x, y: lerp(-40, rest.y, t * t) };
-        let rot = lerp(-22, -TILT, t);
-        if (d >= HIT) {
-          p = onPlank(HORSE_U, deg);
-          rot = deg;
-        }
-        horse.setAttribute("transform", `translate(${p.x} ${p.y}) rotate(${rot})`);
-        if (speed) {
-          speed.style.opacity = d < HIT ? clamp(t * 2.5) : 0;
-          speed.setAttribute("transform", `rotate(${-rot})`); // keep the lines vertical
-        }
+      // the fall: cubic ease-in, upright, then a short squash on landing
+      const t = clamp((d - FALL_FROM) / (HIT - FALL_FROM));
+      horse.style.opacity = d < FALL_FROM ? 0 : 1;
+      const y = after ? TOP + dip : lerp(-40, TOP, t * t * t);
+      const sy = 1 - 0.06 * Math.sin(Math.PI * clamp((d - HIT) / 0.1));
+      horse.setAttribute("transform", `translate(${CX} ${y}) scale(1 ${sy})`);
+      if (speed) speed.style.opacity = d < HIT ? clamp(t * 2.5) : 0;
+
+      // screen shake, dying out
+      const sk = clamp((d - HIT) / 0.14);
+      const amp = after && sk < 1 ? 16 * (1 - sk) : 0;
+      world.setAttribute("transform", `translate(${Math.sin(d * 900) * amp} ${Math.cos(d * 700) * amp * 0.6})`);
+
+      // shockwave rings and dust at the landing point
+      const w = clamp((d - HIT) / 0.3);
+      if (wave) {
+        wave.style.opacity = w > 0 && w < 1 ? 1 - w : 0;
+        wave.setAttribute("transform", `translate(${CX} ${TOP}) scale(${0.2 + 2.6 * w} 1)`);
       }
-
-      // dust cloud at the impact point
       if (dust) {
-        const t = clamp((d - HIT) / 0.2);
-        dust.style.opacity = t > 0 && t < 1 ? 1 - t : 0;
-        dust.setAttribute("transform", `translate(${rest.x} ${rest.y}) scale(${0.4 + 0.9 * t})`);
+        const u = clamp((d - HIT) / 0.2);
+        dust.style.opacity = u > 0 && u < 1 ? 1 - u : 0;
+        dust.setAttribute("transform", `translate(${CX} ${TOP}) scale(${0.5 + 0.9 * u})`);
       }
 
-      // infantrymen: stand on the plank, get flung up, land, then cheer with two hops
-      soldiers.forEach((s) => {
-        const p = onPlank(s.u, deg);
-        const fly = clamp((d - s.start) / 0.26);
-        let lift = s.tall * Math.sin(Math.PI * fly);
-        const w = clamp((d - 0.86 - s.phase) / (0.12 - s.phase));
-        lift += 38 * Math.abs(Math.sin(w * Math.PI * 2));
-        s.el.style.opacity = clamp((d - 0.1) / 0.06);
-        s.el.setAttribute("transform", `translate(${p.x} ${p.y - lift}) scale(.82)`);
+      // pawns: one big hop and a small one, starting nearest the knight
+      pawns.forEach((p) => {
+        const tau = (d - p.start) / 0.18;
+        let lift = 0;
+        if (tau > 0 && tau < 1) lift = p.hop * Math.sin(Math.PI * tau);
+        else if (tau >= 1 && tau < 1.6) lift = p.hop * 0.3 * Math.sin((Math.PI * (tau - 1)) / 0.6);
+        const rot = tau > 0 && tau < 1.6 ? p.tilt * Math.sin(Math.PI * Math.min(tau, 1)) : 0;
+        p.el.style.opacity = clamp((d - 0.1) / 0.06);
+        p.el.setAttribute("transform", `translate(${p.x} ${p.y + dip - lift}) rotate(${rot}) scale(${p.s})`);
       });
     };
 
@@ -395,7 +397,7 @@
     showSubs(q);
     boards.forEach((b) => b.update(progress(b.frame, q)));
     presses.forEach((pr) => pr.update(progress(pr.frame, q)));
-    seesaws.forEach((s) => s.update(progress(s.frame, q)));
+    impacts.forEach((s) => s.update(progress(s.frame, q)));
 
     // Each finished frame pushes the reel up by one frame (+ the dark gap between frames)
     let moved = 0;
