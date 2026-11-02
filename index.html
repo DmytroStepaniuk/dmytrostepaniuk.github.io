@@ -600,7 +600,7 @@
           <div class="gap" aria-hidden="true"></div>
 
           <!-- Frame 6: Kherson, remote work set up -->
-          <section class="frame" data-draw-from=".3239" data-draw-to=".3746" data-advance-from=".3802" data-advance-to=".3887">
+          <section data-extra class="frame" data-draw-from=".3239" data-draw-to=".3746" data-advance-from=".3802" data-advance-to=".3887">
             <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="img"
                  aria-label="Людина в навушниках працює за ноутбуком, поруч роутер і кавуни, у вікні Дніпро та міст"
                  data-en-label="A person in a headset works at a laptop next to a router and watermelons, with the Dnipro and a bridge in the window">
@@ -723,7 +723,7 @@
           <div class="gap" aria-hidden="true"></div>
 
           <!-- Frame 7: meeting the full-scale war in Kherson -->
-          <section class="frame frame--grey" data-draw-from=".3887" data-draw-to=".4393" data-advance-from=".4450" data-advance-to=".4534">
+          <section data-extra class="frame frame--grey" data-draw-from=".3887" data-draw-to=".4393" data-advance-from=".4450" data-advance-to=".4534">
             <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="img"
                  aria-label="Херсон під обстрілом: арка з написом «Херсон», собор, міст через Дніпро, порт і прапор, ящик з кавунами внизу, а з неба летять ракети з димними слідами й лунають вибухи"
                  data-en-label="Kherson under fire: a gate sign reading “Kherson”, a cathedral, a bridge over the Dnipro, the port and a flag, a crate of watermelons at the bottom, while missiles with smoke trails fall from the sky and explosions go off">
@@ -851,7 +851,7 @@
           <div class="gap" aria-hidden="true"></div>
 
           <!-- Frame 8: leaving Kherson because of the war -->
-          <section class="frame frame--grey" data-draw-from=".4534" data-draw-to=".5041" data-advance-from=".5097" data-advance-to=".5182">
+          <section data-extra class="frame frame--grey" data-draw-from=".4534" data-draw-to=".5041" data-advance-from=".5097" data-advance-to=".5182">
             <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="img"
                  aria-label="Хлопчина в кепці й комбінезоні на пагорбі тягнеться великим сачком до ракети з крилами, що летить над ним"
                  data-en-label="A boy in a cap and overalls on a hill reaches with a big butterfly net for a rocket with wings flying above him">
@@ -1646,6 +1646,10 @@
       <div class="settings__box">
         <h2 id="settings-title" data-en="Settings">Налаштування</h2>
         <p class="settings__safari" hidden data-en="Hello, happy Safari user! We turned a few things off for you so it does not lag. You can turn them back on below.">Вітаю, щасливий користувачу Safari! Ми дещо вимкнули для тебе, аби воно не лагало. Нижче можна увімкнути назад.</p>
+        <label class="settings__row">
+          <input type="checkbox" role="switch" autocomplete="off" data-setting="extra">
+          <span data-en="Extra content">Додатковий контент</span>
+        </label>
         <label class="settings__row">
           <input type="checkbox" role="switch" autocomplete="off" data-setting="film">
           <span data-en="Film effects (grain, flicker, shake)">Плівкові ефекти (зерно, мерехтіння, тремтіння)</span>

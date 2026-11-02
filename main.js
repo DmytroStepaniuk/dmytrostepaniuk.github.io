@@ -6,7 +6,7 @@
   // So both default to off there, and the visitor can change either in the popup.
   const isWebKit =
     /AppleWebKit/.test(navigator.userAgent) && !/(Chrome|Chromium|Edg|OPR|Android)\//.test(navigator.userAgent);
-  const settings = { film: !isWebKit, wobble: !isWebKit };
+  const settings = { film: !isWebKit, wobble: !isWebKit, extra: true };
   try {
     Object.assign(settings, JSON.parse(localStorage.getItem("settings") || "{}"));
   } catch {}
@@ -37,6 +37,7 @@
       b.addEventListener("change", () => {
         settings[b.dataset.setting] = b.checked;
         applySettings();
+        dispatchEvent(new Event("settingschange"));
         try {
           localStorage.setItem("settings", JSON.stringify(settings));
         } catch {}
@@ -491,6 +492,54 @@
   const browserIsUk = (navigator.language || "").toLowerCase().startsWith("uk");
   setLang(saved || (browserIsUk ? "uk" : "en"));
 
+  // Optional frames ([data-extra]) can be switched off in the settings. The remaining frames keep
+  // their length: their windows are re-packed over a shorter track, and the scroll position is kept.
+  const BASE_VH = Math.round((track.offsetHeight / innerHeight) * 100);
+  frames.forEach((f) => {
+    f.orig = { from: f.from, to: f.to, advFrom: f.advFrom, advTo: f.advTo };
+    f.extra = f.el.hasAttribute("data-extra");
+    f.gap = f.el.nextElementSibling && f.el.nextElementSibling.classList.contains("gap") ? f.el.nextElementSibling : null;
+  });
+  frames.forEach((f, i) => (f.span = frames[i + 1] ? frames[i + 1].orig.from - f.orig.from : 0));
+
+  let hiddenNow = [];
+  let removedNow = 0;
+  const layoutFrames = (showExtra) => {
+    const hidden = frames.filter((f) => f.extra && !showExtra);
+    const removed = hidden.reduce((a, f) => a + f.span, 0);
+    // original q -> q on the shorter track (a hidden frame's span collapses to a point)
+    const map = (q) =>
+      (q - hidden.reduce((a, f) => a + clamp(q - f.orig.from, 0, f.span), 0)) / (1 - removed);
+    frames.forEach((f) => {
+      const gone = hidden.includes(f);
+      f.el.style.display = gone ? "none" : "";
+      if (f.gap) f.gap.style.display = gone ? "none" : "";
+      if (gone) {
+        f.from = f.to = 0;
+        f.advFrom = f.advTo = null;
+        return;
+      }
+      f.from = map(f.orig.from);
+      f.to = map(f.orig.to);
+      f.advFrom = f.orig.advFrom === null ? null : map(f.orig.advFrom);
+      f.advTo = f.orig.advTo === null ? null : map(f.orig.advTo);
+    });
+    track.style.height = `${BASE_VH * (1 - removed)}vh`;
+    const prev = { hidden: hiddenNow, removed: removedNow };
+    hiddenNow = hidden;
+    removedNow = removed;
+    return { map, prev };
+  };
+  // q on the current track -> original q
+  const unmapQ = (q, prev) => {
+    let x = q * (1 - prev.removed);
+    for (const f of prev.hidden) if (x >= f.orig.from) x += f.span;
+    return x;
+  };
+
+  layoutFrames(settings.extra);
+  let shownExtra = settings.extra;
+
   // Smoothed scroll -> progress
   let current = 0;
   let target = 0;
@@ -510,6 +559,20 @@
     if (!raf) raf = requestAnimationFrame(tick);
   };
 
+  addEventListener("settingschange", () => {
+    if (settings.extra === shownExtra) return;
+    shownExtra = settings.extra;
+    const q = clamp((target - introEnd) / (1 - introEnd));
+    const { map, prev } = layoutFrames(settings.extra);
+    const qNew = map(unmapQ(q, prev));
+    const max = track.offsetHeight - innerHeight;
+    const introNew = clamp((INTRO_VH * innerHeight) / max, 0.001, 0.5);
+    scrollTo(0, track.offsetTop + (introNew + qNew * (1 - introNew)) * max);
+    onScroll();
+    current = target;
+    boards.forEach((b) => b.layout());
+    render(current);
+  });
   addEventListener("scroll", onScroll, { passive: true });
   addEventListener("resize", onScroll);
   onScroll();
